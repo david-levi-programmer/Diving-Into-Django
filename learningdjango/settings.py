@@ -25,11 +25,12 @@ SECRET_KEY = 'django-insecure-g#^+(dzq#&ht0yo&7e1w2bm#ddwexr)v(o3*8wxu-s*qgf3pre
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# What domain names are allowed
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# Any apps you make or download need to be added here
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'store',
+    'tags'
 ]
 
 MIDDLEWARE = [
@@ -49,8 +52,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# how Django knows how to route any given URL
 ROOT_URLCONF = 'learningdjango.urls'
 
+# Where HTML are stored and how they are rendered and work
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -67,6 +72,7 @@ TEMPLATES = [
     },
 ]
 
+# How the server works
 WSGI_APPLICATION = 'learningdjango.wsgi.application'
 
 
