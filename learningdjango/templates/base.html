@@ -4,7 +4,7 @@
     <title>Diving Deep Into Django</title>
     </head>
     <body>
-        <h1>This here's a navigation bar</h1>
+        {% include 'navbar.html' %}
         {% block content %}
         This is replacement content. There is nothing to see here.
         {% endblock %}
