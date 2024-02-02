@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Product(models.Model):
@@ -7,3 +8,7 @@ class Product(models.Model):
     stock = models.PositiveIntegerField()
     description = models.TextField(max_length=500)
     image_url = models.URLField()
+    featured = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return f"/products/{self.id}/"

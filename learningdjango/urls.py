@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from store.views import home_view
+from store.views import index_view, dynamic_product_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("welcome/", home_view)
+    path("product/<int:product_id>", dynamic_product_view, name='product'),
+    path("index/", index_view)
 ]

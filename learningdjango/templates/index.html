@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Products List:</h1>
+    {% for product in object_list %}
+    <p>{{ product.id }} - {{ product.name }} - {{ product.price }}</p>
+    {% endfor %}
+</div>
+{% endblock %}
