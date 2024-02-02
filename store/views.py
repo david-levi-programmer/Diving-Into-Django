@@ -1,5 +1,4 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Product
 
 # Create your views here.
@@ -8,11 +7,11 @@ def index_view(request, *args, **kwargs):
     item_info = {
         'object_list': item_list
     }
-    return render(request, "index.html", item_info)
+    return render(request, "store/index.html", item_info)
 
 def dynamic_product_view(request, product_id):
-    obj = Product.objects.get(id=product_id)
+    obj = get_object_or_404(Product, id=product_id)
     context = {
         "object": obj
     }
-    return render(request, "product_page.html", context)
+    return render(request, "store/product_page.html", context)

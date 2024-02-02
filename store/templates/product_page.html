@@ -3,6 +3,6 @@
 {% block content %}
 <h1>Our featured item:
     {{ object.name }}</h1>
-<p>{% if ojbect.description %}{{ object.description }}{% else %}More info coming soon. Stay tuned!{% endif %}</p>
+<p>{% if object.description %}{{ object.description }}{% else %}More info coming soon. Stay tuned!{% endif %}</p>
     £{{ object.price }}
 {% endblock %}
