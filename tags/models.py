@@ -9,3 +9,6 @@ class Tag(models.Model):
 
     def get_absolute_url(self):
         return reverse("tags:category-listing", kwargs={"id":self.id})
+    
+    def __str__(self):
+        return f'{self.name}'
