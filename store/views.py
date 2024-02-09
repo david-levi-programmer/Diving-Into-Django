@@ -1,9 +1,16 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Product
-from .serializers import ProductSerializer
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
+from .models import *
+from .forms import OrderForm, CreateUserForm
+from .serializers import ProductSerializer
 
 # v Views for regular HTML templates
 # def index_view(request, *args, **kwargs):
@@ -19,6 +26,62 @@ from rest_framework import status
         # "object": obj
     # }
     # return render(request, "store/product_page.html", context)
+
+def registration_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        form = CreateUserForm()
+        if request.method == "POST":
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Account successfully created for ' + user + '!')
+                return redirect('login')
+
+        context = {'form':form}
+        return render(request, "store/accounts/register.html", context)
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.info(request, 'Username and/or password is wrong.')
+
+        context = {}
+        return render(request, "store/accounts/login.html", context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+@login_required(login_url='login')
+def home_view(request):
+    orders = Order.objects.all()
+    customers = Customer.objects.all()
+
+    total_customers = customers.count()
+
+    total_orders = orders.count()
+    delivered_orders = orders.filter(status="Delivered").count()
+    orders_pending = orders.filter(status="Pending").count()
+
+    context = {'orders':orders, 'customers':customers,
+               'total_orders':total_orders, 'delivered':delivered_orders,
+               'pending':orders_pending}
+    
+    return render(request, "store/accounts/dashboard.html", context)
 
 # v Views for Django REST Framework
 @api_view(['GET', 'POST'])
