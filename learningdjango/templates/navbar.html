@@ -9,12 +9,14 @@
 <nav class="navbar navbar-expand-lg navbar-darl bg-dark">
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+            {% if request.user.is_staff %}
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'store/products' %}">Products</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href='{% url "store/home" %}'>Features</a>
             </li>
+            {% endif %}
         </ul>
     </div>
 
